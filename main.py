@@ -7,8 +7,22 @@ key = open('/Users/estebanzuniga/Desktop/Yelp-Engineering/api-info/access.txt').
 headers = {'Authorization':'Bearer {}'.format(key)}
 
 # make a que here to increment the offset parameter until you get 500 results per 500
+def make_dataframe(response, dataframe):
+    for biz in response['businesses']:
+        name = biz['name']
+        title = biz['categories'][0]['title']
+        review_count = biz['review_count']
+        rating = biz['rating']
+        location = biz['location']['display_address']
+        phone = biz['phone']
+                    
+        row = pd.DataFrame([[name, title, review_count, rating, location, phone]], columns= ['name','type','review_count', 'rating', 'location', 'phone'])
+        dataframe = pd.concat([dataframe, row], ignore_index=True)
+    return dataframe
+
+
 def get_data():
-    offset = 1 
+    offset = 0
     count = 0
     yelp_df = pd.DataFrame(columns=['name', 'type', 'review_count', 'rating', 'location', 'phone'])
     while offset < 500:
@@ -32,19 +46,11 @@ def get_data():
     print(yelp_df)
 
  
-def make_dataframe(response, dataframe):
-    for biz in response['businesses']:
-        name = biz['name']
-        title = biz['categories'][0]['title']
-        review_count = biz['review_count']
-        rating = biz['rating']
-        location = biz['location']['display_address']
-        phone = biz['phone']
-                    
-        row = pd.DataFrame([[name, title, review_count, rating, location, phone]], columns= ['name','type','review_count', 'rating', 'location', 'phone'])
-        dataframe = pd.concat([dataframe, row], ignore_index=True)
-    return dataframe
+
         
+
+
+
 def main():
     get_data()
 
