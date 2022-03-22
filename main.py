@@ -26,7 +26,7 @@ def get_data():
     offset = 0
     count = 0
     yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone'])
-    while offset < 500:
+    while offset < 1000:
         parameters = {
             'location': 'New York City", "NYC"',
             'term': 'Restaurant',
@@ -131,10 +131,6 @@ def append_from_df_to_db(curr, dataframe):
     for i, row in dataframe.iterrows():
         insert_into_table(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
                         row['location'], row['phone'])
-
-
-
-
 
 
 def main():
