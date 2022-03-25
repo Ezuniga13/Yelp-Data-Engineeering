@@ -7,6 +7,10 @@ key = open('/Users/estebanzuniga/Desktop/Yelp-Engineering/api-info/access.txt').
 headers = {'Authorization':'Bearer {}'.format(key)}
 
 def make_dataframe(response, dataframe):
+    """ 
+        Args: Takes in a Json response from an Yelp API call and an empty Pandas Datarame from the call_yelp function.
+        Returns: The dataframe with the data from the API call concated row by row
+    """
     for biz in response['businesses']:
         alias = biz['alias']
         name = biz['name']
@@ -22,7 +26,7 @@ def make_dataframe(response, dataframe):
 
 
 
-def get_data():
+def call_yelp():
     offset = 0
     count = 0
     yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone'])
@@ -145,7 +149,7 @@ def main():
     conn = connect_to_db(host, dbname, username, password, port)
     curr = conn.cursor()
     create_table(curr)
-    yelp_df = get_data()
+    yelp_df = call_yelp()
     new_yelp_df = update_db(curr, yelp_df)
     append_from_df_to_db(curr, new_yelp_df)
     conn.commit()
