@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 url = 'https://api.yelp.com/v3/businesses/search'
-key = open('/Users/estebanzuniga/Desktop/Yelp-Engineering/api-info/access.txt').readlines()[0]
+key = open('/Users/estebanzuniga/Desktop/Yelp-Engineering/scr/yelp_functions/api-info/access.txt').readlines()[0]
 headers = {'Authorization':'Bearer {}'.format(key)}
 
 def make_dataframe(response, dataframe):
@@ -135,7 +135,7 @@ def append_from_df_to_db(curr, dataframe):
     for i, row in dataframe.iterrows():
         insert_into_table(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
                         row['location'], row['phone'])
-
+    print('done')
 
 def main():
    
@@ -145,14 +145,15 @@ def main():
     username = 'dtengineer'
     password = '2EsxlYUZvyCGgV7rmjjU'
     conn = None
-
+    
+    yelp_df = call_yelp()
     conn = connect_to_db(host, dbname, username, password, port)
     curr = conn.cursor()
     create_table(curr)
-    yelp_df = call_yelp()
     new_yelp_df = update_db(curr, yelp_df)
     append_from_df_to_db(curr, new_yelp_df)
     conn.commit()
+
 
 
 
