@@ -33,18 +33,7 @@ def make_dataframe(queryresults):
 
 
 def main():
-    host = 'database-yp.co4mvaosgcjm.us-east-1.rds.amazonaws.com'
-    dbname = 'yelpdb'
-    port = '5432'
-    username = 'dtengineer'
-    password = '2EsxlYUZvyCGgV7rmjjU'
-    conn = None
-    conn = connect_to_db(host, dbname, username, password, port)
-    curr = conn.cursor()
-    queryresults = query_top_rated(curr)
-    conn.commit()
-    curr.close
-    conn.close
+    
     df = make_dataframe(queryresults)
     st.dataframe(df.style.format(subset=['rating'], formatter='{:.1f}'))
     

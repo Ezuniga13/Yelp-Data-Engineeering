@@ -7,3 +7,6 @@
 vendor
 vendor/
 __pycache__/
+.env
+Pipfile.lock
+.dockerignore

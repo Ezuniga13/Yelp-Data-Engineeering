@@ -1,10 +1,14 @@
 import psycopg2 as ps
 import requests
 import pandas as pd
+from dotenv import load_dotenv 
+from dotenv import find_dotenv
+import os
 
-url = 'https://api.yelp.com/v3/businesses/search'
-key = open('/Users/estebanzuniga/Desktop/Yelp-Engineering/scr/yelp_functions/api-info/access.txt').readlines()[0]
-headers = {'Authorization':'Bearer {}'.format(key)}
+load_dotenv(dotenv_path=find_dotenv(), verbose=True)
+API_KEY = os.getenv('API_KEY')
+URL = os.getenv('URL')
+headers = {'Authorization':'Bearer {}'.format(API_KEY)}
 
 def make_dataframe(response, dataframe):
     """ 
@@ -38,7 +42,7 @@ def call_yelp():
             'limit': 50,
             'offset': offset}
 
-        response = requests.get(url, headers = headers , params = parameters)
+        response = requests.get(URL, headers = headers , params = parameters)
         business_data = response.json()
         
         ## here I will put in pandas dataframe instead of printing it out. 
@@ -138,16 +142,15 @@ def append_from_df_to_db(curr, dataframe):
     print('done')
 
 def main():
-   
-    host = 'database-yp.co4mvaosgcjm.us-east-1.rds.amazonaws.com'
-    dbname = 'yelpdb'
-    port = '5432'
-    username = 'dtengineer'
-    password = '2EsxlYUZvyCGgV7rmjjU'
+    HOST = os.getenv('HOST') 
+    DBNAME = os.getenv('DBNAME') 
+    PORT = os.getenv('PORT') 
+    USERNAME = os.getenv('USERNAME') 
+    PASSWORD = os.getenv('PASSWORD') 
     conn = None
     
     yelp_df = call_yelp()
-    conn = connect_to_db(host, dbname, username, password, port)
+    conn = connect_to_db(HOST, DBNAME, USERNAME, PASSWORD, PORT)
     curr = conn.cursor()
     create_table(curr)
     new_yelp_df = update_db(curr, yelp_df)

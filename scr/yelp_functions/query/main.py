@@ -1,9 +1,21 @@
 import psycopg2 as ps
 import requests
 import pandas as pd
-from main import connect_to_db
+from dotenv import load_dotenv 
+from dotenv import find_dotenv
+import os
 
 
+
+
+def connect_to_db(host, dbname, username, password, port):
+    try:
+        conn =  ps.connect(host = host, database = dbname,  user = username,  password = password, port = port)
+    except ps.OperationalError as e:
+        raise e
+    else:
+        print('Connected!')
+    return conn
 
 def query_top_rated(curr):
     query = (""" SELECT * FROM yelp_business WHERE rating > %s and review_count > %s ORDER BY review_count DESC""")
@@ -25,15 +37,15 @@ def make_dataframe(queryresults):
 
 
 def main():
-    
-    host = 'database-yp.co4mvaosgcjm.us-east-1.rds.amazonaws.com'
-    dbname = 'yelpdb'
-    port = '5432'
-    username = 'dtengineer'
-    password = '2EsxlYUZvyCGgV7rmjjU'
+    load_dotenv(dotenv_path=find_dotenv(), verbose=True)
+    HOST = os.getenv('HOST') 
+    DBNAME = os.getenv('DBNAME') 
+    PORT = os.getenv('PORT') 
+    USERNAME = os.getenv('USERNAME') 
+    PASSWORD = os.getenv('PASSWORD') 
     conn = None
 
-    conn = connect_to_db(host, dbname, username, password, port)
+    conn = connect_to_db(HOST, DBNAME, USERNAME, PASSWORD, PORT)
     curr = conn.cursor()
     queryresults = query_top_rated(curr)
     conn.commit()
