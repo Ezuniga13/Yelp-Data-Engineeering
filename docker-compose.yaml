@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+    api:
+      build: ./scr/yelp_functions/api_to_db
+
+    query:
+      build: ./scr/yelp_functions/query
+      
+    
