@@ -5,6 +5,10 @@ services:
       build: ./scr/yelp_functions/api_to_db
 
     query:
-      build: ./scr/yelp_functions/query
       
-    
+      build: ./scr/yelp_functions/query
+      depends_on:
+        - "api"
+      links:
+        - "api:api"
+      command:  bash  -c  "while ping -c1 api &>/dev/null; do sleep 5; done; echo 'Yelp Api calls finished!' && python query_to_s3/main.py"
