@@ -26,9 +26,9 @@ def query_top_rated(curr):
 
 
 def make_dataframe(queryresults):
-    yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone'])
+    yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'latitude', 'longitude'])
     for row in queryresults:
-        row = pd.DataFrame([[row[0], row[1], row[2], row[3], row[4], row[5], row[6]]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone'])
+        row = pd.DataFrame([[row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'latitude', 'longitude'])
 
         yelp_df = pd.concat([yelp_df, row], ignore_index=True)
     

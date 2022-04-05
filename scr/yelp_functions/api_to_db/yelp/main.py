@@ -79,7 +79,7 @@ def create_table(curr):
         name TEXT NOT NULL,
         type TEXT NOT NULL,
         review_count INTEGER NOT NULL,
-        rating INTEGER NOT NULL,
+        rating DECIMAL NOT NULL,
         location TEXT,
         phone TEXT,
         latitude DECIMAL,
@@ -118,7 +118,7 @@ def update_db(curr, yelp_df):
     for i, row in yelp_df.iterrows():
         if alias_exist(curr, row['alias']): # alias is primary key ``
             update_row(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
-                        row['location'], row['phone'], row['coordinates']['latitude'], row['coordinates']['longitutde'])
+                        row['location'], row['phone'], row['coordinates']['latitude'], row['coordinates']['longitude'])
         else:
             row_df = pd.DataFrame([[row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
                         row['location'], row['phone'], row['coordinates']]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'coordinates'])
