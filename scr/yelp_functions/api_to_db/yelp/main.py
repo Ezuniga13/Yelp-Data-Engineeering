@@ -23,8 +23,8 @@ def make_dataframe(response, dataframe):
         rating = biz['rating']
         location = biz['location']['display_address']
         phone = biz['phone']
-                    
-        row = pd.DataFrame([[alias, name, title, review_count, rating, location, phone]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone'])
+        coordinates = biz['coordinates']       
+        row = pd.DataFrame([[alias, name, title, review_count, rating, location, phone, coordinates]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'coordinates'])
         dataframe = pd.concat([dataframe, row], ignore_index=True)
     return dataframe
 
@@ -33,7 +33,7 @@ def make_dataframe(response, dataframe):
 def call_yelp():
     offset = 0
     count = 0
-    yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone'])
+    yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
     while offset < 1000:
         parameters = {
             'location': 'New York City", "NYC"',
@@ -61,7 +61,7 @@ def call_yelp():
 
  
 
-# connecting to dabase ---------------
+#connecting to dabase ---------------
 
 def connect_to_db(host, dbname, username, password, port):
     try:
@@ -79,10 +79,11 @@ def create_table(curr):
         name TEXT NOT NULL,
         type TEXT NOT NULL,
         review_count INTEGER NOT NULL,
-        rating NUMERICAL NOT NULL,
+        rating INTEGER NOT NULL,
         location TEXT,
-        phone TEXT
-
+        phone TEXT,
+        latitude DECIMAL,
+        longitude DECIMAL
     )""")
     curr.execute(create_table_command)
     print('created_table')
@@ -96,29 +97,31 @@ def alias_exist(curr, alias):
     return curr.fetchone() is not None
 
 
-def update_row(curr, alias, name, type, review_count, rating, location, phone):
+def update_row(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
     query = (""" UPDATE yelp_business
                 SET name = %s,
                     type = %s,
                     review_count = %s,
                     rating = %s,
                     location = %s,
-                    phone = %s
+                    phone = %s,
+                    latitude = %s,
+                    longitude = %s
                 WHERE alias = %s;""")
-    vars_to_update = (name, type, review_count, rating, location, phone, alias)
+    vars_to_update = (name, type, review_count, rating, location, phone, latitude, longitude, alias)
     curr.execute(query, vars_to_update)
 
 
 def update_db(curr, yelp_df):
-    temp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone'])
+    temp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
 
     for i, row in yelp_df.iterrows():
         if alias_exist(curr, row['alias']): # alias is primary key ``
             update_row(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
-                        row['location'], row['phone'])
+                        row['location'], row['phone'], row['coordinates']['latitude'], row['coordinates']['longitutde'])
         else:
             row_df = pd.DataFrame([[row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
-                        row['location'], row['phone']]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone'])
+                        row['location'], row['phone'], row['coordinates']]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'coordinates'])
             temp_df = pd.concat([temp_df, row_df], ignore_index=True)
     print(temp_df.count())
     print(temp_df.head())
@@ -126,11 +129,11 @@ def update_db(curr, yelp_df):
 
 
 
-def insert_into_table(curr, alias, name, type, review_count, rating, location, phone):
+def insert_into_table(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
 
-    insert_business_into = (""" INSERT INTO yelp_business(alias, name, type, review_count, rating, location, phone)
-                            VALUES(%s, %s, %s, %s, %s, %s, %s);""")
-    row_to_insert = (alias, name, type, review_count, rating, location, phone)
+    insert_business_into = (""" INSERT INTO yelp_business(alias, name, type, review_count, rating, location, phone, latitude, longitude)
+                            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);""")
+    row_to_insert = (alias, name, type, review_count, rating, location, phone, latitude, longitude)
     curr.execute(insert_business_into, row_to_insert)
 
     
@@ -138,7 +141,7 @@ def append_from_df_to_db(curr, dataframe):
 
     for i, row in dataframe.iterrows():
         insert_into_table(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
-                        row['location'], row['phone'])
+                        row['location'], row['phone'], row['coordinates']['latitude'], row['coordinates']['longitude'])
     print('done')
 
 def main():
