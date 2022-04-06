@@ -31,6 +31,11 @@ def make_dataframe(response, dataframe):
 
 
 def call_yelp():
+    """
+        Args: None
+        Returns: A get reponse of 1000 restaurants from New York City then parses through the json objects and converts it into a pandas dataframe by calling the make-dataframe function
+    
+    """
     offset = 0
     count = 0
     yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
@@ -64,6 +69,11 @@ def call_yelp():
 #connecting to dabase ---------------
 
 def connect_to_db(host, dbname, username, password, port):
+    """
+        Args: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
+        Returns: a conn and prints out Connected! or exceptiong error if unable to connect
+    
+    """
     try:
         conn =  ps.connect(host = host, database = dbname,  user = username,  password = password, port = port)
     except ps.OperationalError as e:
@@ -74,6 +84,11 @@ def connect_to_db(host, dbname, username, password, port):
 
 # create table --takes in the cursor and needs the conn from connect_to_db
 def create_table(curr):
+    """
+        Args: Takes in a cursor from the connection attribute for posgres
+        Returns: A created table in a posgres db with the following fields
+    
+    """
     create_table_command = ("""CREATE TABLE IF NOT EXISTS yelp_business(
         alias VARCHAR(255) PRIMARY KEY,
         name TEXT NOT NULL,

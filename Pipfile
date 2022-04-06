@@ -9,6 +9,7 @@ requests = "*"
 psycopg2 = "*"
 streamlit = "*"
 python-dotenv = "*"
+boto3 = "*"
 
 [dev-packages]
 

@@ -4,6 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv 
 from dotenv import find_dotenv
 import os
+import boto3
 
 
 
@@ -33,7 +34,19 @@ def make_dataframe(queryresults):
         yelp_df = pd.concat([yelp_df, row], ignore_index=True)
     
     print(yelp_df)
+    yelp_csv = yelp_df.to_csv()
+    return yelp_csv
 
+
+def push_csv_to_bucket(csv, ACCESS_ID, ACCESS_KEY):
+    s3_client = boto3.client('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+
+
+    response =  s3_client.put_object(Body = csv, Bucket = 'yelp-data-engineering', Key = 'query_of_nyc_best')
+    print(response)
 
 
 def main():
@@ -44,6 +57,8 @@ def main():
     USERNAME = os.getenv('USERNAME') 
     PASSWORD = os.getenv('PASSWORD') 
     conn = None
+    ACCESS_ID = os.getenv('ACCESS_ID')
+    ACCESS_KEY = os.getenv('ACCESS_KEY')
 
     conn = connect_to_db(HOST, DBNAME, USERNAME, PASSWORD, PORT)
     curr = conn.cursor()
@@ -51,7 +66,8 @@ def main():
     conn.commit()
     curr.close
     conn.close
-    make_dataframe(queryresults)
+    yelp_csv = make_dataframe(queryresults)
+    push_csv_to_bucket(yelp_csv, ACCESS_ID, ACCESS_KEY)
     
 
 
