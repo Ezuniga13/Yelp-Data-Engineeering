@@ -1,6 +1,8 @@
 version: "3.8"
 
 services:
+    web:
+      build: ./scr/streamlit_app
     api:
       build: ./scr/yelp_functions/api_to_db
 

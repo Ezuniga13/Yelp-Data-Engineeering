@@ -19,7 +19,7 @@ def connect_to_db(host, dbname, username, password, port):
     return conn
 
 def query_top_rated(curr):
-    query = (""" SELECT * FROM yelp_business WHERE rating > %s and review_count > %s ORDER BY review_count DESC""")
+    query = (""" SELECT * FROM yelp_business WHERE rating >= %s and review_count > %s ORDER BY review_count DESC""")
     curr.execute(query, (4.5, 30))
     print(curr.rowcount)
     results = curr.fetchall()
