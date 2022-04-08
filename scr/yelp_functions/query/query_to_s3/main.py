@@ -64,8 +64,8 @@ def main():
     curr = conn.cursor()
     queryresults = query_top_rated(curr)
     conn.commit()
-    curr.close
-    conn.close
+    curr.close()
+    conn.close()
     yelp_csv = make_dataframe(queryresults)
     push_csv_to_bucket(yelp_csv, ACCESS_ID, ACCESS_KEY)
     

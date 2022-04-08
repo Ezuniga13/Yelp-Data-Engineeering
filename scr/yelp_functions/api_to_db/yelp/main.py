@@ -174,7 +174,8 @@ def main():
     new_yelp_df = update_db(curr, yelp_df)
     append_from_df_to_db(curr, new_yelp_df)
     conn.commit()
-
+    curr.close()
+    conn.close()
 
 
 

@@ -3,6 +3,11 @@ version: "3.8"
 services:
     web:
       build: ./scr/streamlit_app
+      depends_on:
+        - "query"
+      links:
+        - "query:query"
+      command: bash  -c  "while ping -c1 query &>/dev/null; do sleep 1; done; echo 'Yelp Api and Query finished!' && streamlit run app/main.py"
     api:
       build: ./scr/yelp_functions/api_to_db
 
@@ -13,4 +18,4 @@ services:
         - "api"
       links:
         - "api:api"
-      command:  bash  -c  "while ping -c1 api &>/dev/null; do sleep 5; done; echo 'Yelp Api calls finished!' && python query_to_s3/main.py"
+      command:  bash  -c  "while ping -c1 api &>/dev/null; do sleep 1; done; echo 'Yelp Api calls finished!' && python query_to_s3/main.py"
