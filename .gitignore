@@ -9,4 +9,5 @@ vendor/
 __pycache__/
 .env
 Pipfile.lock
+Pipfile*
 .dockerignore
