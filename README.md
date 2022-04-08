@@ -1,1 +1,1 @@
-# Yelp Data Engineering Fully Automated Pipeline With Interative Dashboard And Container
+# Fully Automated Pipeline With Interative Dashboard
