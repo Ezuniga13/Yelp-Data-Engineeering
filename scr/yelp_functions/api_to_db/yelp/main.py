@@ -5,11 +5,6 @@ from dotenv import load_dotenv
 from dotenv import find_dotenv
 import os
 
-load_dotenv(dotenv_path=find_dotenv(), verbose=True)
-API_KEY = os.getenv('API_KEY')
-URL = os.getenv('URL')
-headers = {'Authorization':'Bearer {}'.format(API_KEY)}
-
 def make_dataframe(response, dataframe):
     """ 
         Args: Takes in a Json response from an Yelp API call and an empty Pandas Datarame from the call_yelp function.
@@ -27,8 +22,6 @@ def make_dataframe(response, dataframe):
         row = pd.DataFrame([[alias, name, title, review_count, rating, location, phone, coordinates]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'coordinates'])
         dataframe = pd.concat([dataframe, row], ignore_index=True)
     return dataframe
-
-
 
 def call_yelp():
     """
@@ -62,9 +55,6 @@ def call_yelp():
     print(yelp_df['alias'].nunique())
     print(yelp_df.head())
     return yelp_df
-
-
- 
 
 #connecting to dabase ---------------
 
@@ -103,7 +93,6 @@ def create_table(curr):
     curr.execute(create_table_command)
     print('created_table')
 
-
 # update or append values to our table sql
 
 def alias_exist(curr, alias):
@@ -126,7 +115,6 @@ def update_row(curr, alias, name, type, review_count, rating, location, phone, l
     vars_to_update = (name, type, review_count, rating, location, phone, latitude, longitude, alias)
     curr.execute(query, vars_to_update)
 
-
 def update_db(curr, yelp_df):
     temp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
 
@@ -142,8 +130,6 @@ def update_db(curr, yelp_df):
     print(temp_df.head())
     return temp_df
 
-
-
 def insert_into_table(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
 
     insert_business_into = (""" INSERT INTO yelp_business(alias, name, type, review_count, rating, location, phone, latitude, longitude)
@@ -151,7 +137,6 @@ def insert_into_table(curr, alias, name, type, review_count, rating, location, p
     row_to_insert = (alias, name, type, review_count, rating, location, phone, latitude, longitude)
     curr.execute(insert_business_into, row_to_insert)
 
-    
 def append_from_df_to_db(curr, dataframe):
 
     for i, row in dataframe.iterrows():
@@ -160,6 +145,12 @@ def append_from_df_to_db(curr, dataframe):
     print('done')
 
 def main():
+    
+    load_dotenv(dotenv_path=find_dotenv(), verbose=True)
+    API_KEY = os.getenv('API_KEY')
+    URL = os.getenv('URL')
+    headers = {'Authorization':'Bearer {}'.format(API_KEY)}
+
     HOST = os.getenv('HOST') 
     DBNAME = os.getenv('DBNAME') 
     PORT = os.getenv('PORT') 
@@ -176,8 +167,6 @@ def main():
     conn.commit()
     curr.close()
     conn.close()
-
-
 
 if __name__ == '__main__':
     main()
