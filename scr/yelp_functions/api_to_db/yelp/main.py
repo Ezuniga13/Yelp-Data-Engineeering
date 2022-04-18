@@ -27,7 +27,6 @@ def call_yelp():
     """
         Args: None
         Returns: A get reponse of 1000 restaurants from New York City then parses through the json objects and converts it into a pandas dataframe by calling the make-dataframe function
-    
     """
     offset = 0
     count = 0
@@ -62,7 +61,6 @@ def connect_to_db(host, dbname, username, password, port):
     """
         Args: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
         Returns: a conn and prints out Connected! or exceptiong error if unable to connect
-    
     """
     try:
         conn =  ps.connect(host = host, database = dbname,  user = username,  password = password, port = port)
@@ -77,7 +75,6 @@ def create_table(curr):
     """
         Args: Takes in a cursor from the connection attribute for posgres
         Returns: A created table in a posgres db with the following fields
-    
     """
     create_table_command = ("""CREATE TABLE IF NOT EXISTS yelp_business(
         alias VARCHAR(255) PRIMARY KEY,
