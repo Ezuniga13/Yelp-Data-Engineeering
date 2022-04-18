@@ -9,8 +9,6 @@ import io
 import pydeck as pdk
 import numpy as np
 
-
-
 st.title(''' SIMPLY THE BEST EATS NYC ''')
 
 @st.cache(persist=True)
@@ -28,6 +26,7 @@ def make_dataframe(csv):
     yelp_df.index  = yelp_df.index + 1
     yelp_df = yelp_df.loc[:, ~yelp_df.columns.str.contains('Unnamed')]
     yelp_df = yelp_df.loc[:, ~yelp_df.columns.str.contains('phone')]
+    
     return yelp_df
 
 
@@ -36,7 +35,6 @@ ACCESS_ID = os.getenv('ACCESS_ID')
 ACCESS_KEY = os.getenv('ACCESS_KEY')
 csv = get_csv_from_bucket(ACCESS_ID, ACCESS_KEY)
 df = make_dataframe(csv)
-
 
 st.subheader('Top Eats with a 4.5 or higher Yelp rating!') 
 if st.checkbox("Click to view List", False): 
@@ -70,9 +68,6 @@ if st.checkbox('Click to view map'):
                         ]
                     ))
     
-
-
-
 def main():
     pass
     
