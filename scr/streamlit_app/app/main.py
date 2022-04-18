@@ -29,7 +29,6 @@ def make_dataframe(csv):
     
     return yelp_df
 
-
 load_dotenv(dotenv_path=find_dotenv(), verbose=True)
 ACCESS_ID = os.getenv('ACCESS_ID')
 ACCESS_KEY = os.getenv('ACCESS_KEY')
