@@ -96,12 +96,20 @@ def create_table(curr):
 # update or append values to our table sql
 
 def alias_exist(curr, alias):
+    """
+        Args: Takes in a cursor from a connection to database and the alias from the Yelp API call which serves as a unique indentifier
+        Returns: A fetchone object if the alias exist in the database and a None object if it does not.
+    """
     query = (""" SELECT alias FROM yelp_business where alias = %s""")
     curr.execute(query, (alias,))
     return curr.fetchone() is not None
 
 
 def update_row(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
+    """
+        Args: Takes in a cursor and all the values for the fields that are chosen for the database.
+        Returns: Updates the database with the given values.
+    """
     query = (""" UPDATE yelp_business
                 SET name = %s,
                     type = %s,
@@ -116,6 +124,10 @@ def update_row(curr, alias, name, type, review_count, rating, location, phone, l
     curr.execute(query, vars_to_update)
 
 def update_db(curr, yelp_df):
+    """
+        Args: Takes in a cursor for the database and the dataframe made from the Yelp_call function.
+        Returns: Returns a new dataframe that has new unique alias that do not exist in the database at the time of the API call.
+    """
     temp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
 
     for i, row in yelp_df.iterrows():
@@ -131,6 +143,10 @@ def update_db(curr, yelp_df):
     return temp_df
 
 def insert_into_table(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
+    """
+        Args: Takes in a cursor and all the values for the fields that are chosen for the database.
+        Returns: A printed done statment in the terminal.
+    """
 
     insert_business_into = (""" INSERT INTO yelp_business(alias, name, type, review_count, rating, location, phone, latitude, longitude)
                             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);""")
@@ -138,7 +154,10 @@ def insert_into_table(curr, alias, name, type, review_count, rating, location, p
     curr.execute(insert_business_into, row_to_insert)
 
 def append_from_df_to_db(curr, dataframe):
-
+    """
+        Args: Takes in a cursor and a dataframe that has new unique aliases.
+        Returns: A printed Done statement in the terminal.
+    """
     for i, row in dataframe.iterrows():
         insert_into_table(curr, row['alias'], row['name'], row['type'], row['review_count'], row['rating'],
                         row['location'], row['phone'], row['coordinates']['latitude'], row['coordinates']['longitude'])
