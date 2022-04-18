@@ -1,7 +1,7 @@
 # Fully Automated Pipeline With Interative Dashboard
 
-Esteban Zuniga
-April 18, 2022
+Esteban Zuniga <br>
+April 18, 2022 <br>
 Data Engineering
 
 ## ABSTRACT
