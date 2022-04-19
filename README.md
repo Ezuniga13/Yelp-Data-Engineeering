@@ -29,6 +29,9 @@ The data is then queried from the database filtering the restaurants that have t
 - pandas for EDA and dataframe manipulation
 - loadenv and dotenv for environment variables
 - boto3 to push data to s3 Buckets
+- pydeck to visualize the data
+- os to interact with environment variables
+- numpy to calculate data
 
 *Databases*
 
