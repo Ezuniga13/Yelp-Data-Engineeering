@@ -40,7 +40,7 @@ The data is then queried from the database filtering the restaurants that have t
 
 *Containers*
 
-- Docker to run mutilple containers and to simply deployment.
+- Docker to run mutilple containers and to simplify deployment.
 
 *Web Application*
 
