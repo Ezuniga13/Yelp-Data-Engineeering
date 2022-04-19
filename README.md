@@ -51,10 +51,10 @@ The data is then queried from the database filtering the restaurants that have t
 
 **Data Query**
 
-![A simple web page!](/images/dataframe_drop_down.png)<br>
 ![A simple web page!](/images/dataframe_drop_down.png)
-![A simple web page!](/images/dataframe_drop_down.png)
-![A simple web page!](/images/dataframe_drop_down.png)
+![A simple web page!](/images/dataframe_expanded.png)
+![A simple web page!](/images/main_page.png)
+![A simple web page!](/images/simple_map.png)
 
 
 
