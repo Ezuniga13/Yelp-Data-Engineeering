@@ -8,7 +8,7 @@ Data Engineering
 
 There are over 20,000 restaurants, bars and café's in New York City and some estimate it would take a person over 20 years to visit all of them. Of course, some of those would go out of business by the time one could visit them, making it virtually impossible to pull off the task. However, it would be nice if one knew what the best restaurants were according to their peers before trying eateries randonmly.
 
-Foodies like to explore, but would rather not be dissapointed. Because they can only visit so many places it would be more strategic to know in advance the best spots. And the places to avoid! 
+Foodies like to explore, but would rather not be dissapointed. Because they can only visit so many places it would be more strategic to know in advance the best spots to visit. And the places to avoid! 
 
 Can you imagine searching one by one from 20,000 places you know or do not know exist? This is a situation where the power of analytics can be demonstrated and be utilized by cutting out the manual searching and saving a massive amount of time. This can be accomplished by way of data engineering.
 
