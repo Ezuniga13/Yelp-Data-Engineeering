@@ -27,7 +27,7 @@ The data is then queried from the database filtering the restaurants that have t
 - requests to call the Yelp API
 - psycopg2 to use as client to connect to the database and to make queries
 - pandas for EDA and dataframe manipulation
-- loadenv and dotenv to environment variables
+- loadenv and dotenv for environment variables
 - boto3 to push data to s3 Buckets
 
 *Databases*
