@@ -49,5 +49,8 @@ The data is then queried from the database filtering the restaurants that have t
 
 - Streamlit
 
+**Data Query
+
+![A simple web page!]
 
 
