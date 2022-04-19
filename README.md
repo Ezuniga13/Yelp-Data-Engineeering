@@ -51,7 +51,7 @@ The data is then queried from the database filtering the restaurants that have t
 
 **Data Query** <br>
 
-The main page 
+The main page <br>
 
 ![Main Page!](/images/main_page.png)
 
