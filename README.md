@@ -51,7 +51,7 @@ The data is then queried from the database filtering the restaurants that have t
 
 **Data Query**
 The main page
-![A simple web page!](/images/main_page.png)
+<img src="/images/main_page.png" width="200" height="100">
 Drop down toggle option
 ![A simple web page!](/images/dataframe_drop_down.png)
 Expanded view
