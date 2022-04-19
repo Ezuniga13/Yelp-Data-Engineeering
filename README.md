@@ -10,7 +10,7 @@ There are over 20,000 restaurants, bars and café's in New York City and some es
 
 Foodies like to explore, but would rather not be dissapointed. Because they can only visit so many places it would be more strategic to know in advance the best spots to visit. And the places to avoid! 
 
-Can you imagine searching one by one from 20,000 places you know or do not know exist? This is a situation where the power of analytics can be demonstrated and be utilized by cutting out the manual searching and saving a massive amount of time. This can be accomplished by way of data engineering.
+Can you imagine searching one by one from 20,000 places you know or do not know exist? This is a situation where the power of analytics can be demonstrated and be utilized by cutting out the manual searching and saving a massive amount of time by acquiring knowledge in seconds that would otherwise take decades. This can be accomplished by way of data engineering.
 
 The goal of this project is to construct an ETL pipeline to curate a table and a 3D map of the best eateries in the city that have a rating of 4.5 or higher and at least 30 reviews. The list has all the relevant information of the establishment making it easy for the foodie to select their next culinary adventure. Bon Appétit!
 
