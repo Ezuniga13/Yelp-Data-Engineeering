@@ -7,6 +7,10 @@ import os
 import boto3
 
 def connect_to_db(host, dbname, username, password, port):
+    """
+        Args: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
+        Returns: a conn and prints out Connected! or exceptiong error if unable to connect
+    """
     try:
         conn =  ps.connect(host = host, database = dbname,  user = username,  password = password, port = port)
     except ps.OperationalError as e:
