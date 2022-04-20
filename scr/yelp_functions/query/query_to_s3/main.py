@@ -20,6 +20,10 @@ def connect_to_db(host, dbname, username, password, port):
     return conn
 
 def query_top_rated(curr):
+    """
+        Args: Takes in a cursor to query the database.
+        Returns: A sql object of filtered values.
+    """
     query = (""" SELECT * FROM yelp_business WHERE rating >= %s and review_count > %s ORDER BY review_count DESC""")
     
     curr.execute(query, (4.5, 30))
@@ -29,6 +33,10 @@ def query_top_rated(curr):
     return results
 
 def make_dataframe(queryresults):
+    """
+        Args: Takes in the queryresults from the query_to_rated functions.
+        Returns: a dataframe then converts it into a cvs.
+    """
     yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'latitude', 'longitude'])
     for row in queryresults:
         row = pd.DataFrame([[row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]]], columns= ['alias','name','type','review_count', 'rating', 'location', 'phone', 'latitude', 'longitude'])
@@ -39,6 +47,10 @@ def make_dataframe(queryresults):
     return yelp_csv
 
 def push_csv_to_bucket(csv, ACCESS_ID, ACCESS_KEY):
+    """
+        Args: Takes in a csv file and credentials to interact with the S3 bucket on AWS.
+        Returns a 200 response and object type that was pushed to the s3 bucket.
+    """
     s3_client = boto3.client('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
