@@ -13,6 +13,10 @@ st.title(''' SIMPLY THE BEST EATS NYC ''')
 
 @st.cache(persist=True)
 def get_csv_from_bucket(ACCESS_ID, ACCESS_KEY):
+    """
+        Args: Takes in standard credentials to connect to AWS s3 bucket.
+        Returns: The body of a response from s3 client get object attriubte.
+    """
     s3_client = boto3.client('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
@@ -22,6 +26,10 @@ def get_csv_from_bucket(ACCESS_ID, ACCESS_KEY):
     return csv
 
 def make_dataframe(csv):
+    """
+        Args: Takes in the body of a get object resonse from the get_csv_from_bucket function.
+        Returns: A dataframe of restuarants from New York City.
+    """
     yelp_df = pd.read_csv(io.BytesIO(csv))
     yelp_df.index  = yelp_df.index + 1
     yelp_df = yelp_df.loc[:, ~yelp_df.columns.str.contains('Unnamed')]
