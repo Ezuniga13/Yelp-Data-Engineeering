@@ -6,8 +6,10 @@ from dotenv import find_dotenv
 import os
 
 def make_dataframe(response, dataframe):
-    """ 
-        Args: Takes in a Json response from an Yelp API call and an empty Pandas Datarame from the call_yelp function.
+    """ Converts a Json object from an API call into a pandas Dataframe.
+    
+        Parameters : Takes in a Json response from an Yelp API call and an empty Pandas Datarame from the call_yelp function.
+        
         Returns: The dataframe with the data from the API call concated row by row
     """
     for biz in response['businesses']:
@@ -24,8 +26,10 @@ def make_dataframe(response, dataframe):
     return dataframe
 
 def call_yelp():
-    """
-        Args: None
+    """ Makes a Yelp API call.
+        
+        Parameters: None
+        
         Returns: A get reponse of 1000 restaurants from New York City then parses through the json objects and converts it into a pandas dataframe by calling the make-dataframe function
     """
     offset = 0
@@ -59,7 +63,8 @@ def call_yelp():
 
 def connect_to_db(host, dbname, username, password, port):
     """
-        Args: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
+        Parameters: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
+        
         Returns: a conn and prints out Connected! or exceptiong error if unable to connect
     """
     try:
@@ -73,7 +78,7 @@ def connect_to_db(host, dbname, username, password, port):
 # create table --takes in the cursor and needs the conn from connect_to_db
 def create_table(curr):
     """
-        Args: Takes in a cursor from the connection attribute for posgres
+        Parameters: Takes in a cursor from the connection attribute for posgres
         Returns: A created table in a posgres db with the following fields
     """
     create_table_command = ("""CREATE TABLE IF NOT EXISTS yelp_business(
@@ -94,7 +99,8 @@ def create_table(curr):
 
 def alias_exist(curr, alias):
     """
-        Args: Takes in a cursor from a connection to database and the alias from the Yelp API call which serves as a unique indentifier
+        Parameters: Takes in a cursor from a connection to database and the alias from the Yelp API call which serves as a unique indentifier
+        
         Returns: A fetchone object if the alias exist in the database and a None object if it does not.
     """
     query = (""" SELECT alias FROM yelp_business where alias = %s""")
@@ -104,7 +110,8 @@ def alias_exist(curr, alias):
 
 def update_row(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
     """
-        Args: Takes in a cursor and all the values for the fields that are chosen for the database.
+        Parameters: Takes in a cursor and all the values for the fields that are chosen for the database.
+        
         Returns: Updates the database with the given values.
     """
     query = (""" UPDATE yelp_business
@@ -122,7 +129,8 @@ def update_row(curr, alias, name, type, review_count, rating, location, phone, l
 
 def update_db(curr, yelp_df):
     """
-        Args: Takes in a cursor for the database and the dataframe made from the Yelp_call function.
+        Parameters: Takes in a cursor for the database and the dataframe made from the Yelp_call function.
+        
         Returns: Returns a new dataframe that has new unique alias that do not exist in the database at the time of the API call.
     """
     temp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'coordinates'])
@@ -141,7 +149,8 @@ def update_db(curr, yelp_df):
 
 def insert_into_table(curr, alias, name, type, review_count, rating, location, phone, latitude, longitude):
     """
-        Args: Takes in a cursor and all the values for the fields that are chosen for the database.
+        Parameters: Takes in a cursor and all the values for the fields that are chosen for the database.
+        
         Returns: A printed done statment in the terminal.
     """
 
@@ -152,7 +161,7 @@ def insert_into_table(curr, alias, name, type, review_count, rating, location, p
 
 def append_from_df_to_db(curr, dataframe):
     """
-        Args: Takes in a cursor and a dataframe that has new unique aliases.
+        Parameters: Takes in a cursor and a dataframe that has new unique aliases.
         Returns: A printed Done statement in the terminal.
     """
     for i, row in dataframe.iterrows():
