@@ -54,7 +54,7 @@ The data is then queried from the database filtering the restaurants that have t
 The main page <br>
 
 ![Main Page!](/images/main_page.png) <br>
-![Main Page!](/images/dataframe_drop_down.png) <br>
-![Main Page!](/images/dataframe_expanded.png)
+![Second Page!](/images/dataframe_drop_down.png) <br>
+![Third Page!](/images/dataframe_expanded.png)
 
 
