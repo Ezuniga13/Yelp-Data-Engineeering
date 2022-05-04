@@ -8,7 +8,7 @@ import boto3
 
 def connect_to_db(host, dbname, username, password, port):
     """
-        Args: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
+        Parameters: Take in standard credentials necessary to connect to a aws rds using a psycopg2 client.
         Returns: a conn and prints out Connected! or exceptiong error if unable to connect
     """
     try:
@@ -21,7 +21,7 @@ def connect_to_db(host, dbname, username, password, port):
 
 def query_top_rated(curr):
     """
-        Args: Takes in a cursor to query the database.
+        Parameters: Takes in a cursor to query the database.
         Returns: A sql object of filtered values.
     """
     query = (""" SELECT * FROM yelp_business WHERE rating >= %s and review_count > %s ORDER BY review_count DESC""")
@@ -34,7 +34,7 @@ def query_top_rated(curr):
 
 def make_dataframe(queryresults):
     """
-        Args: Takes in the queryresults from the query_to_rated functions.
+        Parameters: Takes in the queryresults from the query_to_rated functions.
         Returns: a dataframe then converts it into a cvs.
     """
     yelp_df = pd.DataFrame(columns=['alias', 'name', 'type', 'review_count', 'rating', 'location', 'phone', 'latitude', 'longitude'])
@@ -48,7 +48,7 @@ def make_dataframe(queryresults):
 
 def push_csv_to_bucket(csv, ACCESS_ID, ACCESS_KEY):
     """
-        Args: Takes in a csv file and credentials to interact with the S3 bucket on AWS.
+        Parameters: Takes in a csv file and credentials to interact with the S3 bucket on AWS.
         Returns a 200 response and object type that was pushed to the s3 bucket.
     """
     s3_client = boto3.client('s3',
